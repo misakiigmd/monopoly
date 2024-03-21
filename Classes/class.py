@@ -1,12 +1,18 @@
-class Propriété:
-    def __init__(self, case) -> None:
+class Propriete:
+    def __init__(self, case, db) -> None:
         self.case = case
         self.prix = ...
         self.proprietaire = None
         self.loyer = ...
     
+    liste_propriétés = {...}
+    
     def est_achete(self):
         return self.proprietaire != None
+    
+    @staticmethod
+    def est_propriete(num_case):
+        return num_case in Propriete.liste_propriétés
 
 class Joueur:
     def __init__(self, nom, db) -> None:
