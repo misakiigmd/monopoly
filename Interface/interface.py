@@ -1,4 +1,6 @@
 import tkinter as tk
+from tkinter import messagebox
+from time import sleep
 
 class MonopolyPlateau(tk.Tk):
     def __init__(self, size=6):
@@ -24,6 +26,22 @@ class MonopolyPlateau(tk.Tk):
         y_position = (screen_height - window_height) // 2
         self.geometry(f"{window_width}x{window_height}+{x_position}+{y_position}")
 
+        def recommencer():
+            messagebox.askyesno("Souhaitez-vous recommencer la partie ?", "Bravo!")
+
+        menubar = tk.Menu(self)
+
+        menu1 = tk.Menu(menubar, tearoff=0)
+        menu1.add_command(label="Recommencer", command=recommencer)
+        menu1.add_separator()
+        menu1.add_command(label="Quitter", command=self.quit)
+        menubar.add_cascade(label="Paramètres", menu=menu1)
+
+        menu2 = tk.Menu(menubar, tearoff=0)
+        menubar.add_command(label="Quitter", command=self.quit)
+
+        self.config(menu=menubar)
+        
         # Créer la grille de carrés sur les côtés avec du texte
         for i in range(size):
             for j in range(size):
@@ -34,15 +52,39 @@ class MonopolyPlateau(tk.Tk):
                     label.place(relx=0.5, rely=0.5, anchor="c")
 
         # Placer des pions déplaçables sur le plateau
-        self.place_piece(size -1, size-1.5, "red")
-        self.place_piece(size -0.5, size+0.5, "blue")
+        self.place_piece(size -1, size-1.5, "lightgreen")
+        self.place_piece(size -0.5, size+0.5, "lightblue")
 
         # Créer les colonnes pour les joueurs 1 et 2
         player1_column = tk.Canvas(self, width=100, height=window_height, bg="lightblue")
-        player1_column.grid(row=0, column=0, rowspan=size, padx=5, pady=5)
+        player1_column.grid(row=0, column=0, rowspan=size, padx=50, pady=50)
+        player1_label = tk.Label(player1_column, bg="lightblue", text="Joueur 1\n\nArgent Total = $1000\n\nPropriétés: ")
+        player1_label.pack(side="top")
 
         player2_column = tk.Canvas(self, width=100, height=window_height, bg="lightgreen")
-        player2_column.grid(row=0, column=size+1, rowspan=size, padx=5, pady=5)
+        player2_column.grid(row=0, column=size+1, rowspan=size, padx=50, pady=5)
+        player2_label = tk.Label(player2_column, bg="lightgreen", text="Joueur 2\n\nArgent Total = $1000\n\nPropriétés: ")
+        player2_label.pack(side="top")
+
+        # Créer une section pour les boutons à droite du joueur 2
+        button_section = tk.Frame(self, width=200, height=window_height, bg="white")
+        button_section.grid(row=0, column=size+2, rowspan=size, padx=5, pady=5)
+
+       # Fonction pour ajouter des boutons à la section
+        def add_button(text):
+            button = tk.Button(button_section, text=text)
+            button.pack(side="top", padx=5, pady=5)
+            if text == "Acheter":
+                button.config(command=lambda: remove_button(button))  # Configuration du bouton "Acheter" pour appeler remove_button
+
+        # Fonc  tion pour retirer un bouton de la section
+        def remove_button(button):
+            button.pack_forget()
+
+        # Exemple d'ajout de boutons
+        add_button("Acheter")
+        add_button("Passer")
+        add_button("Lancer le dé")        
 
     def place_piece(self, row, col, color):
         square_size = 100
@@ -53,3 +95,5 @@ class MonopolyPlateau(tk.Tk):
 if __name__ == "__main__":
     app = MonopolyPlateau(size=6)
     app.mainloop()
+    sleep(10)
+    app

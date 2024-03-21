@@ -1,5 +1,18 @@
+import os
 import sqlite3 as sql
 
+def delete_old_files():
+    if os.path.exists('cartes_commu.db'):
+        os.remove('cartes_commu.db') 
+    if os.path.exists('cartes_chance.db'):
+        os.remove('cartes_chance.db') 
+    if os.path.exists('joueurs.db'):
+        os.remove('joueurs.db')
+    if os.path.exists('terrains.db'):
+        os.remove('terrains.db') 
+        
+delete_old_files()
+    
 def joueur():
     def creer_joueurs():
         joueurs = sql.connect("Databases/joueurs.db")
@@ -8,13 +21,41 @@ def joueur():
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS Joueurs(
             id_joueur INTEGER PRIMARY KEY AUTOINCREMENT,
-            nom VARCHAR(50),
-            prix INTEGER,
-            loyer INTEGER);
+            billets_500 INTEGER,
+            billets_100 INTEGER,
+            billets_50 INTEGER,
+            billets_20 INTEGER,
+            billets_10 INTEGER,
+            billets_5 INTEGER,
+            billets_1 INTEGER,
+            cartes_prisons INTEGER);
         """)
         
+        joueurs.commit()
         
-
+        cursor.close()
+        joueurs.close()
+        
+    def remplir_joueurs():
+        joueurs = sql.connect("Databases/joueurs.db")
+        cursor = joueurs.cursor()
+        
+        nombre_joueurs = 2
+        
+        for i in range(nombre_joueurs):
+            cursor.execute("""
+            INSERT INTO Joueurs(billets_500, billets_100, billets_50, billets_20, billets_10, billets_5, billets_1, cartes_prisons)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?);
+            """, (1, 1, 1, 2, 3, 5, 5, 0))
+            
+        joueurs.commit()
+        
+        cursor.close()
+        joueurs.close()
+        
+    creer_joueurs()
+    remplir_joueurs()
+        
 def terrain():
     def creer_terrains():
         terrains = sql.connect("Databases/terrains.db")
@@ -25,7 +66,9 @@ def terrain():
             id_terrain INTEGER PRIMARY KEY AUTOINCREMENT,
             nom VARCHAR(50),
             prix INTEGER,
-            loyer INTEGER);
+            loyer INTEGER,
+            appartenance INTEGER,
+            FOREIGN KEY(appartenance) REFERENCES joueurs(id_joueur));
         """)
 
         terrains.commit()
@@ -65,4 +108,47 @@ def terrain():
     creer_terrains()
     remplir_terrains()
     
+# def cartes_commu():    
+#     def creer_carte_commu():
+#         cartes_commu = sql.connect("Databases/cartes_commu.db")
+#         cursor = cartes_commu.cursor()
+        
+#         cursor.execute("""
+#         CREATE TABLE IF NOT EXISTS cartes_communautes(
+#            id_cartes INTEGER PRIMARY KEY AUTOINCREMENT,
+#            nom VARCHAR(50),
+#            effet VARCHAR(255));
+#         """)
+#         cartes_commu.commit()
+
+#         cursor.close()
+#         cartes_commu.close()
+
+#     def remplir_cartes_commu():
+#         cartes_commu = sql.connect("Databases/cartes_commu.db")
+#         cursor = cartes_commu.cursor()
+        
+#         #{"Nom": (effet)}
+#         liste_cartes_commu = [
+#             {}
+#         ]
+        
+#         for i in liste_cartes_commu:
+#             nom_cartes = list(i.keys())[0]
+#             effet_commu = list(i.values())[0]
+#             cursor.execute("""
+#             INSERT INTO cartes_commu(nom,effet)
+#             VALUES(?,?);
+#                            """,(nom_cartes,effet_commu))
+            
+#         cartes_commu.commit()
+
+#         cursor.close()
+#         cartes_commu.close()
+       
+#     creer_carte_commu() 
+#     remplir_cartes_commu()
+    
+joueur()
 terrain()
+# cartes_commu()
