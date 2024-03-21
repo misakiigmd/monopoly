@@ -17,8 +17,8 @@ class Propriete:
 class Joueur:
     def __init__(self, nom, db) -> None:
         self.nom = nom
-        self.billet = {500 :..., 100:..., 50:..., 20:..., 10:..., 5:..., 1:...}
-        self.argents = self.billet[500]*500 + self.billet[100]*100 + self.billet[50]*50 + self.billet[20]*20 + self.billet[10]*10
+        self.billets = {500 :..., 100:..., 50:..., 20:..., 10:..., 5:..., 1:...}
+        self.argent = self.billets[500]*500 + self.billets[100]*100 + self.billets[50]*50 + self.billets[20]*20 + self.billets[10]*10
         self.emplacement = 0
         self.proprietes = {} # set de propriété que le joueur achete
         self.bloque = 0
@@ -35,24 +35,24 @@ class Joueur:
     def payer(self, somme):
         if somme > self.argents:
             return -1
-        elif somme == self.argents:
-            self.billets = {x : 0 for x in self.billets}
+        elif somme == self.argent:
+            self.billets  = {x : 0 for x in self.billets }
         else: 
             
-            for billet in self.billets:
-                if billet > somme:
+            for billets in self.billets :
+                if billets > somme:
                     pass
                 else:
-                    self.billets[billet] -= somme//billet
-                    somme = somme - (somme//billet)*billet
-    
+                    self.billets[billets] -= somme//billets             
+                    somme = somme - (somme//billets) *billets     
     def acheter(self, propriete):
+        assert len(self.proprietes) >= 3, 'Vous possedez déjà 3 propriétés'
         if propriete.est_achete():
             return f'Cette propriété appartient déjà à {propriete.proprietaire()}'
         elif propriete in self.proprietes:
-            return 'Cette maison vous appartient déjà ! '
+            return 'Cette maison vous appartient déjà !'
         else:
-            #récupération de billet en mode glouton
+            #récupération de billets en mode glouton
             if propriete.prix < self.argent:
                 return 'Vous n\'avez pas assez d\'argent pour vous payer cette propriété !'
             else:
@@ -61,6 +61,27 @@ class Joueur:
                 propriete.proprietaire = self.nom
                 return f'Cette propriété appartient désormais à {self.nom}'
 
+
     def payer_loyer(self, propriete):
         if not propriete.est_achete():
-            print('la propriété')
+            print('la propriété n\'est pas encore achetée')
+            r = input('Voulez-vous l\'acheter ? [Y/N] : ')
+            if  r.upper()[0] == "Y":
+                self.acheter(propriete)
+            else:
+                return 'Cette propriété ne vous appartient pas et vous ne voulez pas l\'acheter'
+        elif self.nom == propriete.proprietaire:
+            return 'Cette propriété vous appartient'
+        else:
+            somme = propriete.prix
+            if somme > self.argent:
+                return f'{self.name} a perdu la partie'
+            
+            elif somme == self.argent:
+                for i in self.billets:
+                    temp = self.billets[i]
+                    self.billets[i] = 0
+                    propriete.proprietaire.billets[i] += temp
+            
+            else:
+                ...
