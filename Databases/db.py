@@ -1,5 +1,18 @@
+import os
 import sqlite3 as sql
 
+def delete_old_files():
+    if os.path.exists('cartes_commu.db'):
+        os.remove('cartes_commu.db') 
+    if os.path.exists('cartes_chance.db'):
+        os.remove('cartes_chance.db') 
+    if os.path.exists('joueurs.db'):
+        os.remove('joueurs.db')
+    if os.path.exists('terrains.db'):
+        os.remove('terrains.db') 
+        
+delete_old_files()
+    
 def joueur():
     def creer_joueurs():
         joueurs = sql.connect("Databases/joueurs.db")
@@ -15,7 +28,7 @@ def joueur():
             billets_10 INTEGER,
             billets_5 INTEGER,
             billets_1 INTEGER,
-            cartes_prison INTEGER);
+            cartes_prisons INTEGER);
         """)
         
         joueurs.commit()
@@ -31,7 +44,7 @@ def joueur():
         
         for i in range(nombre_joueurs):
             cursor.execute("""
-            INSERT INTO Joueurs(billets_500, billets_100, billets_50, billets_20, billets_10, billets_5, billets_1, cartes_prison)
+            INSERT INTO Joueurs(billets_500, billets_100, billets_50, billets_20, billets_10, billets_5, billets_1, cartes_prisons)
             VALUES(?, ?, ?, ?, ?, ?, ?, ?);
             """, (1, 1, 1, 2, 3, 5, 5, 0))
             
