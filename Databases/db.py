@@ -1,5 +1,6 @@
 import sqlite3 as sql
 
+# 500 100 50 20 10 5 1 
 def terrain():
     def creer_terrains():
         terrains = sql.connect("Databases/terrains.db")

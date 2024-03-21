@@ -24,7 +24,7 @@ class Joueur:
             self.emplacement == 5 #mettre à la prison
 
     def payer(self, somme):
-        if somme < self.argents:
+        if somme > self.argents:
             return -1
         elif somme == self.argents:
             self.billets = {x : 0 for x in self.billets}
@@ -51,3 +51,5 @@ class Joueur:
                 self.proprietes.add(propriete)
                 propriete.proprietaire = self.nom
                 return f'Cette propriété appartient désormais à {self.nom}'
+
+    def payer_loyer(self)
