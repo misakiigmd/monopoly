@@ -1,6 +1,20 @@
 import sqlite3 as sql
 
-# 500 100 50 20 10 5 1 
+def joueur():
+    def creer_joueurs():
+        joueurs = sql.connect("Databases/joueurs.db")
+        cursor = joueurs.cursor()
+        
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Joueurs(
+            id_joueur INTEGER PRIMARY KEY AUTOINCREMENT,
+            nom VARCHAR(50),
+            prix INTEGER,
+            loyer INTEGER);
+        """)
+        
+        
+
 def terrain():
     def creer_terrains():
         terrains = sql.connect("Databases/terrains.db")
