@@ -1,12 +1,18 @@
-class Propriété:
-    def __init__(self, case) -> None:
+class Propriete:
+    def __init__(self, case, db) -> None:
         self.case = case
         self.prix = ...
         self.proprietaire = None
         self.loyer = ...
     
+    liste_propriétés = {...}
+    
     def est_achete(self):
         return self.proprietaire != None
+    
+    @staticmethod
+    def est_propriete(num_case):
+        return num_case in Propriete.liste_propriétés
 
 class Joueur:
     def __init__(self, nom, db) -> None:
@@ -15,6 +21,7 @@ class Joueur:
         self.argents = self.billet[500]*500 + self.billet[100]*100 + self.billet[50]*50 + self.billet[20]*20 + self.billet[10]*10
         self.emplacement = 0
         self.proprietes = {} # set de propriété que le joueur achete
+        self.bloque = 0
         
     def deplacer(self, nombre_de_case):
         """Déplacer un joueur de n case(s)"""
@@ -22,7 +29,9 @@ class Joueur:
         # Case prison 
         if self.emplacement == 15: # si case police 
             self.emplacement == 5 #mettre à la prison
-
+            self.bloque = 2
+        elif ... : 
+            ...
     def payer(self, somme):
         if somme > self.argents:
             return -1
@@ -52,4 +61,6 @@ class Joueur:
                 propriete.proprietaire = self.nom
                 return f'Cette propriété appartient désormais à {self.nom}'
 
-    def payer_loyer(self)
+    def payer_loyer(self, propriete):
+        if not propriete.est_achete():
+            print('la propriété')
