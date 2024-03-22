@@ -109,5 +109,6 @@ def terrain():
     creer_terrains()
     remplir_terrains()
     
-joueur()
-terrain()
+if __name__ == "__main__":
+    joueur()
+    terrain()
