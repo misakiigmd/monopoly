@@ -33,7 +33,7 @@ class Joueur:
         elif ... : 
             ...
     def payer(self, somme):
-        if somme > self.argents:
+        if somme > self.argent:
             return -1
         elif somme == self.argent:
             self.billets  = {x : 0 for x in self.billets }
