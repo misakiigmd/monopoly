@@ -34,11 +34,11 @@ class MonopolyPlateau(tk.Tk):
         menu1 = tk.Menu(menubar, tearoff=0)
         menu1.add_command(label="Recommencer", command=recommencer)
         menu1.add_separator()
-        menu1.add_command(label="Quitter", command=self.quit)
+        menu1.add_command(label="Quitter", command=self.destroy)
         menubar.add_cascade(label="Paramètres", menu=menu1)
 
         menu2 = tk.Menu(menubar, tearoff=0)
-        menubar.add_command(label="Quitter", command=self.quit)
+        menubar.add_command(label="Quitter", command=self.destroy)
 
         self.config(menu=menubar)
         
