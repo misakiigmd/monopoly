@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from time import sleep
 
 class MonopolyPlateau(tk.Tk):
     def __init__(self, size=6):
@@ -65,6 +66,26 @@ class MonopolyPlateau(tk.Tk):
         player2_label = tk.Label(player2_column, bg="lightgreen", text="Joueur 2\n\nArgent Total = $1000\n\nPropriétés: ")
         player2_label.pack(side="top")
 
+        # Créer une section pour les boutons à droite du joueur 2
+        button_section = tk.Frame(self, width=200, height=window_height, bg="white")
+        button_section.grid(row=0, column=size+2, rowspan=size, padx=5, pady=5)
+
+       # Fonction pour ajouter des boutons à la section
+        def add_button(text):
+            button = tk.Button(button_section, text=text)
+            button.pack(side="top", padx=5, pady=5)
+            if text == "Acheter":
+                button.config(command=lambda: remove_button(button))  # Configuration du bouton "Acheter" pour appeler remove_button
+
+        # Fonc  tion pour retirer un bouton de la section
+        def remove_button(button):
+            button.pack_forget()
+
+        # Exemple d'ajout de boutons
+        add_button("Acheter")
+        add_button("Passer")
+        add_button("Lancer le dé")        
+
     def place_piece(self, row, col, color):
         square_size = 100
         piece = tk.Canvas(self, width=30, height=30, highlightthickness=0, bg="white")
@@ -74,3 +95,5 @@ class MonopolyPlateau(tk.Tk):
 if __name__ == "__main__":
     app = MonopolyPlateau(size=6)
     app.mainloop()
+    sleep(10)
+    app
