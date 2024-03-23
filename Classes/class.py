@@ -32,6 +32,19 @@ class Joueur:
             self.bloque = 2
         elif ... : 
             ...
+    
+    def ajouter_billets(self, val, nombre_billets):
+        assert not val in self.billets, "La valeur du billet n'hexiste pas"    
+        self.billets[val] += nombre_billets
+    
+    def retirer_billets(self, val, nombres_billets):
+        assert not val in self.billets, "La valeur du billet n'hexiste pas"
+        if self.billets[val] < nombres_billets:
+            raise ValueError("Le joueur ne possède pas suffisament de billet")
+        else:
+            self.billets[val] -= nombres_billets   
+
+
     def payer(self, somme):
         if somme > self.argent:
             return -1
@@ -69,7 +82,7 @@ class Joueur:
             if  r.upper()[0] == "Y":
                 self.acheter(propriete)
             else:
-                return 'Cette propriété ne vous appartient pas et vous ne voulez pas l\'acheter'
+                return 'Cette propriété ne vous appartient pas et vous ne voulez pas l\'acheter, il n\'y a donc rien à acheter'
         elif self.nom == propriete.proprietaire:
             return 'Cette propriété vous appartient'
         else:
@@ -84,4 +97,10 @@ class Joueur:
                     propriete.proprietaire.billets[i] += temp
             
             else:
-                ...
+                for billet in self.billets:
+                    if somme >= billet:
+                        nbr_billets = somme // billet
+                        self.retirer_billets(nbr_billets, billet)
+                        propriete.proprietaire.ajouter_billets(nbr_billets, billet)
+                        somme -= billet*nbr_billets
+                        
