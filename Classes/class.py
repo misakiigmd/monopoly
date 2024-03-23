@@ -1,92 +1,119 @@
-class Propriete:
-    def __init__(self, case, db) -> None:
-        self.case = case
-        self.prix = ...
-        self.proprietaire = None
-        self.loyer = ...
+class Terrain:
     
-    liste_propriétés = {...}
+    liste_terrain = {} # set emplacement de propriété
+    
+    def __init__(self, case, prix, loyer) -> None:
+        """Terrain du jeu DuoPili"""
+        self.case = case
+        self.prix = prix
+        self.proprietaire = None
+        self.loyer = loyer
+        self.__class__.liste_terrain.add(case) # ajoute le num de la case à la listes des propriétés existantes
+    
     
     def est_achete(self):
-        return self.proprietaire != None
+        """
+        Renvoie : 
+            True -> le terrain est acheté 
+            False -> le terrain n'appartient à personnes
+        """
+        return self.proprietaire != None 
     
     @staticmethod
-    def est_propriete(num_case):
-        return num_case in Propriete.liste_propriétés
+    def est_terrain(num_case):
+        """
+        Renvoie:
+            True, Si la case est une case terrain
+            False, Si la case n'est pas une case terrain
+        """
+        return num_case in Terrain.liste_terrain
 
 class Joueur:
-    def __init__(self, nom, db) -> None:
+    def __init__(self, nom, nbr_billets):
+        """Joueur du jeu Duopili"""
+        assert len(nbr_billets) !=7, 'Il manque un type de billet dans la liste'
         self.nom = nom
-        self.billets = {500 :..., 100:..., 50:..., 20:..., 10:..., 5:..., 1:...}
+        self.billets = {500 :nbr_billets[0], 100:nbr_billets[1], 50:nbr_billets[2], 20:nbr_billets[3], 10:nbr_billets[4], 5:nbr_billets[5], 1:nbr_billets[6]}
         self.argent = self.billets[500]*500 + self.billets[100]*100 + self.billets[50]*50 + self.billets[20]*20 + self.billets[10]*10
-        self.emplacement = 0
-        self.proprietes = {} # set de propriété que le joueur achete
-        self.bloque = 0
+        self.emplacement = 0 # numero de la case où se trouve le joueur
+        self.terrains = {} # set -> terrain du joueur
+        self.bloque = 0 # bloqué (en cas de mise en prison)
         
     def deplacer(self, nombre_de_case):
         """Déplacer un joueur de n case(s)"""
         self.emplacement += nombre_de_case
+        self.emplacement %= 20
         # Case prison 
         if self.emplacement == 15: # si case police 
             self.emplacement == 5 #mettre à la prison
-            self.bloque = 2
+            self.bloque = 2 # bloqué durant 2 tour
         elif ... : 
             ...
     
     def ajouter_billets(self, val, nombre_billets):
-        assert not val in self.billets, "La valeur du billet n'hexiste pas"    
+        """Ajoute n billets de N"""
+        assert not val in self.billets, "La valeur du billet n'existe pas"    
         self.billets[val] += nombre_billets
     
     def retirer_billets(self, val, nombres_billets):
-        assert not val in self.billets, "La valeur du billet n'hexiste pas"
+        """Retire n billets de N"""
+        assert not val in self.billets, "La valeur du billet n'existe pas"
         if self.billets[val] < nombres_billets:
-            raise ValueError("Le joueur ne possède pas suffisament de billet")
+            raise ValueError("Le joueur ne possède pas suffisament de billets")
         else:
             self.billets[val] -= nombres_billets   
-
+    
+    def est_bloque(self):
+        """Renvoie:
+            True, si le joueur est bloqué
+            False , sinon
+        """
+        return self.bloque > 0
 
     def payer(self, somme):
+        """Le joueur paye une somme N à la banque"""
         if somme > self.argent:
             return -1
         elif somme == self.argent:
             self.billets  = {x : 0 for x in self.billets }
         else: 
-            
             for billets in self.billets :
                 if billets > somme:
                     pass
                 else:
                     self.billets[billets] -= somme//billets             
-                    somme = somme - (somme//billets) *billets     
-    def acheter(self, propriete):
-        assert len(self.proprietes) >= 3, 'Vous possedez déjà 3 propriétés'
-        if propriete.est_achete():
-            return f'Cette propriété appartient déjà à {propriete.proprietaire()}'
-        elif propriete in self.proprietes:
+                    somme = somme - (somme//billets) *billets
+    def acheter(self, terrain):
+        """Le joueur achète un terrain """
+        assert len(self.terrains) >= 3, 'Vous possedez déjà 3 propriétés'
+        if terrain.est_achete():
+            return f'Cette propriété appartient déjà à {terrain.proprietaire}'
+        elif terrain in self.terrains:
             return 'Cette maison vous appartient déjà !'
         else:
             #récupération de billets en mode glouton
-            if propriete.prix < self.argent:
+            if terrain.prix > self.argent:
                 return 'Vous n\'avez pas assez d\'argent pour vous payer cette propriété !'
             else:
-                self.payer()
-                self.proprietes.add(propriete)
-                propriete.proprietaire = self.nom
+                self.payer(terrain.prix)
+                self.terrains.add(terrain)
+                terrain.proprietaire = self.nom
                 return f'Cette propriété appartient désormais à {self.nom}'
 
 
-    def payer_loyer(self, propriete):
-        if not propriete.est_achete():
+    def payer_loyer(self, terrain):
+        """Le joueur doit payer le loyer"""
+        if not terrain.est_achete():
             print('la propriété n\'est pas encore achetée')
             r = input('Voulez-vous l\'acheter ? [Y/N] : ')
             if  r.upper()[0] == "Y":
-                self.acheter(propriete)
+                self.acheter(terrain)
             else:
                 return 'Cette propriété ne vous appartient pas et vous ne voulez pas l\'acheter, il n\'y a donc rien à acheter'
-        elif self.nom == propriete.proprietaire:
+        elif self.nom == terrain.proprietaire:
             return 'Cette propriété vous appartient'
         else:
-            somme = propriete.prix
+            somme = terrain.prix
             if somme > self.argent:
                 return f'{self.name} a perdu la partie'
             
@@ -94,13 +121,13 @@ class Joueur:
                 for i in self.billets:
                     temp = self.billets[i]
                     self.billets[i] = 0
-                    propriete.proprietaire.billets[i] += temp
+                    terrain.proprietaire.billets[i] += temp
             
             else:
                 for billet in self.billets:
                     if somme >= billet:
                         nbr_billets = somme // billet
                         self.retirer_billets(nbr_billets, billet)
-                        propriete.proprietaire.ajouter_billets(nbr_billets, billet)
+                        terrain.proprietaire.ajouter_billets(nbr_billets, billet)
                         somme -= billet*nbr_billets
                         
