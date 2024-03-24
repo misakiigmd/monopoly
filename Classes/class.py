@@ -1,6 +1,6 @@
 class Terrain:
     
-    liste_terrain = {} # set emplacement de propriété
+    liste_terrain = set() # set emplacement de propriété
     
     def __init__(self, case, prix, loyer) -> None:
         """Terrain du jeu DuoPili"""
