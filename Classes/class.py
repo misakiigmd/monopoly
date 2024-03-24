@@ -8,7 +8,7 @@ class Terrain:
         self.prix = prix
         self.proprietaire = None
         self.loyer = loyer
-        self.__class__.liste_terrain.add(case) # ajoute le num de la case à la listes des propriétés existantes
+        Terrain.liste_terrain.add(self) # ajoute le terrain dans 'liste_terrain'
     
     
     def est_achete(self):
@@ -26,7 +26,18 @@ class Terrain:
             True, Si la case est une case terrain
             False, Si la case n'est pas une case terrain
         """
-        return num_case in Terrain.liste_terrain
+        for terrain in Terrain.liste_terrain:
+            if terrain.case == num_case:
+                return True
+        return False
+    
+    @staticmethod
+    def terrain(num_case):
+        """Renvoie le terrain présent à l'emplacement indiqué par 'num_case'"""
+        for terrain in Terrain.liste_terrain:
+            if terrain.case == num_case:
+                return terrain
+        raise Exception("Erreur : Aucun terrain trouvé pour cette case")
 
 class Joueur:
     def __init__(self, nom, nbr_billets):
@@ -41,15 +52,33 @@ class Joueur:
         
     def deplacer(self, nombre_de_case):
         """Déplacer un joueur de n case(s)"""
-        self.emplacement += nombre_de_case
-        self.emplacement %= 20
-        # Case prison 
+        if self.emplacement + nombre_de_case >= 20:
+            self.billets[100]+=1 # On donne 100€ à un joueur qui revient à la case départ
+        self.emplacement = (self.emplacement + nombre_de_case) %20 # Si il réalise un tour complet, il revient à zero (modulo 20 car il y a 20 case au total)
+        # Case prison ---------------------------------------------------------------
         if self.emplacement == 15: # si case police 
             self.emplacement == 5 #mettre à la prison
             self.bloque = 2 # bloqué durant 2 tour
-        elif ... : 
+        # Case terrain --------------------------------------------------------------    
+        elif Terrain.est_terrain(self.emplacemment): # si joueur se trouve dans une case terrain 
+            terrain = Terrain.terrain(self.emplacement) # terrain correspondant à la case où se trouve le joueur 
+            if terrain.est_achete():
+                self.payer_loyer(terrain)
+            else:
+                r = input("Voulez-vous acheter ce terrain ? [O/N] ")
+                if r.lower() == "o":
+                    terrain.acheter()
+                else:
+                    print('vous ne voulez pas acheter ce terrain')
+        # Case chance ----------------------------------------------------------------
+        elif ...:
             ...
-    
+        # Case communauté ------------------------------------------------------------
+        elif ...:
+            ...
+        
+        
+        
     def ajouter_billets(self, val, nombre_billets):
         """Ajoute n billets de N"""
         assert not val in self.billets, "La valeur du billet n'existe pas"    
