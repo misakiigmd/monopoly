@@ -1,18 +1,20 @@
 import os
+import random
 import sqlite3 as sql
-db_name = 'Databases/main.db'
+db_path = 'Databases\main.db'
+
 
 # Suppression de l'ancien fichier (si il existe) pour éviter l'insertion de la même donnée plusieurs fois
 def delete_old_file():
-    if os.path.exists(db_name):
-        os.remove(db_name)
+    if os.path.exists(db_path):
+        os.remove(db_path)
         
 # Création et insertion des données dans les différentes tables
 def main():
     delete_old_file()
     
     # Connection au fichier de base de données
-    db = sql.connect(db_name)
+    db = sql.connect(db_path)
     cursor = db.cursor()
 
     # Création de la table CartesChance
@@ -54,34 +56,32 @@ def main():
     CREATE TABLE IF NOT EXISTS CartesCommunauté(
         id_carte INTEGER PRIMARY KEY AUTOINCREMENT,
         nom VARCHAR(50),
-        effet VARCHAR(255));
+        chemin VARCHAR(50));
     """)
     
-    # {"nom": "effet"}
-    liste_cartes_communauté = [{"CCO1": ""},
-                    {"CCO2": ""},
-                    {"CCO3": ""},
-                    {"CCO4": ""},
-                    {"CCO5": ""},
-                    {"CCO6": ""},
-                    {"CCO7": ""},
-                    {"CCO8": ""},
-                    {"CCO9": ""},
-                    {"CCO10": ""},
-                    {"CCO11": ""},
-                    {"CCO12": ""},
-                    {"CCO13": ""},
-                    {"CCO14": ""},
-                    {"CCO15": ""}]
+    # {"nom": "chemin"}
+    liste_cartes_communauté = [{"CCO1": "Images/cco1.png"},
+                    {"CCO2": "Images/cco2.png"},
+                    {"CCO3": "Images/cco3.png"},
+                    {"CCO4": "Images/cco4.png"},
+                    {"CCO5": "Images/cco5.png"},
+                    {"CCO6": "Images/cco6.png"},
+                    {"CCO7": "Images/cco7.png"},
+                    {"CCO8": "Images/cco8.png"},
+                    {"CCO9": "Images/cco9.png"},
+                    {"CCO10": "Images/cco10.png"},
+                    {"CCO11": "Images/cco11.png"},
+                    {"CCO12": "Images/cco12.png"},
+                    {"CCO13": "Images/cco13.png"}]
     
     # Insertion des données définies au dessus
     for i in liste_cartes_communauté:
         nom_carte_communauté = list(i.keys())[0]
-        effet_carte_communauté = list(i.values())[0]
+        chemin_carte_communauté = list(i.values())[0]
         cursor.execute("""
-        INSERT INTO CartesCommunauté(nom, effet)
+        INSERT INTO CartesCommunauté(nom, chemin)
         VALUES(?, ?);
-        """, (nom_carte_communauté, effet_carte_communauté))
+        """, (nom_carte_communauté, chemin_carte_communauté))
             
     # Création de la table Joueurs
     cursor.execute("""
@@ -144,6 +144,54 @@ def main():
     
     cursor.close()
     db.close()
+    
+def billets(id):
+    db = sql.connect(db_path)
+    cursor = db.cursor()
+    
+    cursor.execute("""
+    SELECT billets_500, billets_100, billets_50, billets_20, billets_10, billets_5, billets_1 FROM Joueurs
+    WHERE id_joueur = ?""", (str(id)))
+    
+    result = cursor.fetchone() 
+    
+    # Transformation du tuple en liste
+    result_list = list(result)
+    
+    cursor.close()
+    db.close()
+    
+    print(result_list)
         
+def carteco_random():
+    db = sql.connect(db_path)
+    cursor = db.cursor()
+    
+    cursor.execute("""
+    SELECT id_carte, chemin FROM CartesCommunauté""")
+    
+    results = cursor.fetchall()
+    carte = random.randint(0, len(results) - 1)
+        
+    print(results[carte])
+    
+    cursor.close()
+    db.close()
+    
+def cartech_random():
+    db = sql.connect(db_path)
+    cursor = db.cursor()
+    
+    cursor.execute("""
+    SELECT id_carte, chemin FROM CartesChance""")
+    
+    results = cursor.fetchall()
+    carte = random.randint(0, len(results) - 1)
+        
+    print(results[carte])
+    
+    cursor.close()
+    db.close()
+    
 if __name__ == "__main__":
     main()
