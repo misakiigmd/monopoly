@@ -6,12 +6,15 @@ def delete_old_file():
     if os.path.exists('Databases/main.db'):
         os.remove('Databases/main.db')
         
+# Création et insertion des données dans les différentes tables
 def main():
     delete_old_file()
     
+    # Connection au fichier de base de données
     db = sql.connect('Databases/main.db')
     cursor = db.cursor()
 
+    # Création de la table CartesChance
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS CartesChance(
         id_carte INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -36,6 +39,7 @@ def main():
                     {"CCH14": ""},
                     {"CCH15": ""}]
     
+    # Insertion des données définies au dessus
     for i in liste_cartes_chance:
         nom_carte_chance = list(i.keys())[0]
         effet_carte_chance = list(i.values())[0]
@@ -44,6 +48,7 @@ def main():
         VALUES(?, ?);
         """, (nom_carte_chance, effet_carte_chance))
         
+    # Création de la table CartesCommunauté
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS CartesCommunauté(
         id_carte INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -68,6 +73,7 @@ def main():
                     {"CCO14": ""},
                     {"CCO15": ""}]
     
+    # Insertion des données définies au dessus
     for i in liste_cartes_communauté:
         nom_carte_communauté = list(i.keys())[0]
         effet_carte_communauté = list(i.values())[0]
@@ -76,6 +82,7 @@ def main():
         VALUES(?, ?);
         """, (nom_carte_communauté, effet_carte_communauté))
             
+    # Création de la table Joueurs
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS Joueurs(
         id_joueur INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -91,12 +98,14 @@ def main():
     
     nombre_joueurs = 2
     
+    # Insertion du nombre de billets et de carte prisons de base autant de fois qu'il y a de joueurs
     for i in range(nombre_joueurs):
         cursor.execute("""
         INSERT INTO Joueurs(billets_500, billets_100, billets_50, billets_20, billets_10, billets_5, billets_1, cartes_prisons)
         VALUES(?, ?, ?, ?, ?, ?, ?, ?);
         """, (1, 1, 1, 2, 3, 5, 5, 0))
 
+    # Création de la table Terrains
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS Terrains(
         id_terrain INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -121,6 +130,7 @@ def main():
                     {"Avenue Fauché": (320, 1800)},
                     {"Avenue Champs-NSI": (330, 2000)}]
     
+    # Insertion des données définies au dessus, ainsi que le nombre de maisons de base (0)
     for i in liste_terrains:
         nom_rue = list(i.keys())[0]
         valeurs_rue = list(i.values())[0]
