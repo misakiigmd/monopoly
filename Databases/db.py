@@ -119,16 +119,16 @@ def main():
     
     # {"nom": (prix, loyer)}
     # Le loyer correspond au loyer de base (il dépend du nombre de maisons)
-    liste_terrains = [{"Rue de Courcelles": (65, 550)},
-                    {"Avenue de la République": (70, 600)},
-                    {"Avenue de Noeuil": (105, 750)},
-                    {"Rue de Paradis": (110, 900)},
-                    {"Boulevard Saint-Michel": (160, 950)},
-                    {"Place Pigalle": (165, 1050)},
-                    {"Rue La Fayette": (215, 1200)},
-                    {"Boulevard des Cramptés": (230, 1500)},
-                    {"Avenue Fauché": (320, 1800)},
-                    {"Avenue Champs-NSI": (330, 2000)}]
+    liste_terrains = [{"Rue de Courcelles": (65, 30)},
+                    {"Avenue de la République": (70, 40)},
+                    {"Avenue de Noeuil": (105, 50)},
+                    {"Rue de Paradis": (110, 60)},
+                    {"Boulevard Saint-Michel": (160, 70)},
+                    {"Place Pigalle": (165, 80)},
+                    {"Rue La Fayette": (215, 120)},
+                    {"Boulevard des Cramptés": (230, 130)},
+                    {"Avenue Fauché": (320, 170)},
+                    {"Avenue Champs-NSI": (330, 180)}]
     
     # Insertion des données définies au dessus, ainsi que le nombre de maisons de base (0)
     for i in liste_terrains:
