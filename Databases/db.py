@@ -61,21 +61,19 @@ def carte_communauté():
         """)
         
         # {"nom": "effet"}
-        liste_cartes_communauté = [{"CCO1": ""},
-                        {"CCO2": ""},
-                        {"CCO3": ""},
-                        {"CCO4": ""},
-                        {"CCO5": ""},
-                        {"CCO6": ""},
-                        {"CCO7": ""},
-                        {"CCO8": ""},
-                        {"CCO9": ""},
-                        {"CCO10": ""},
-                        {"CCO11": ""},
-                        {"CCO12": ""},
-                        {"CCO13": ""},
-                        {"CCO14": ""},
-                        {"CCO15": ""}]
+        liste_cartes_communauté = [{"CCO1": "Images/cco1.png"},
+                        {"CCO2": "Images/cco2.png"},
+                        {"CCO3": "Images/cco3.png"},
+                        {"CCO4": "Images/cco4.png"},
+                        {"CCO5": "Images/cco5.png"},
+                        {"CCO6": "Images/cco6.png"},
+                        {"CCO7": "Images/cco7.png"},
+                        {"CCO8": "Images/cco8.png"},
+                        {"CCO9": "Images/cco9.png"},
+                        {"CCO10": "Images/cco10.png"},
+                        {"CCO11": "Images/cco11.png"},
+                        {"CCO12": "Images/cco12.png"},
+                        {"CCO13": "Images/cco13.png"}]
         
         for i in liste_cartes_communauté:
             nom_carte_communauté = list(i.keys())[0]
