@@ -3,20 +3,14 @@ import sqlite3 as sql
 
 # Suppression des anciens fichiers (si ils existent) pour éviter l'insertion de la même rue plusieurs fois
 def delete_old_files():
-    if os.path.exists('Databases/cartes_communauté.db'):
-        os.remove('Databases/cartes_communauté.db') 
-    if os.path.exists('Databases/cartes_chance.db'):
-        os.remove('Databases/cartes_chance.db') 
-    if os.path.exists('Databases/joueurs.db'):
-        os.remove('Databases/joueurs.db')
-    if os.path.exists('Databases/terrains.db'):
-        os.remove('Databases/terrains.db')
-
+    if os.path.exists('Databases/main.db'):
+        os.remove('Databases/main.db')
+        
 # Création et insertion des données dans la table CartesChance
 def carte_chance():
         # Fonction pour créer la table
         def creer_cartes_chance():
-            cartes_chance = sql.connect('Databases/cartes_chance.db')
+            cartes_chance = sql.connect('Databases/main.db')
             cursor = cartes_chance.cursor()
 
             cursor.execute("""
@@ -33,7 +27,7 @@ def carte_chance():
         
         # Fonction pour insérer les données dans la table
         def remplir_cartes_chance():
-            cartes_chance = sql.connect('Databases/cartes_chance.db')
+            cartes_chance = sql.connect('Databases/main.db')
             cursor = cartes_chance.cursor()
             
             # {"nom": "effet"}
@@ -74,7 +68,7 @@ def carte_chance():
 def carte_communauté():
         # Fonction pour créer la table
         def creer_cartes_communauté():
-            cartes_communautés = sql.connect('Databases/cartes_communauté.db')
+            cartes_communautés = sql.connect('Databases/main.db')
             cursor = cartes_communautés.cursor()
 
             cursor.execute("""
@@ -91,7 +85,7 @@ def carte_communauté():
         
         # Fonction pour insérer les données dans la table
         def remplir_cartes_communauté():
-            carte_communautés = sql.connect('Databases/cartes_communauté.db')
+            carte_communautés = sql.connect('Databases/main.db')
             cursor = carte_communautés.cursor()
             
             # {"nom": "effet"}
@@ -132,7 +126,7 @@ def carte_communauté():
 def joueur():
     # Fonction pour créer la table
     def creer_joueurs():
-        joueurs = sql.connect('Databases/joueurs.db')
+        joueurs = sql.connect('Databases/main.db')
         cursor = joueurs.cursor()
         
         cursor.execute("""
@@ -155,7 +149,7 @@ def joueur():
         
     # Fonction pour insérer les données dans la table
     def remplir_joueurs():
-        joueurs = sql.connect('Databases/joueurs.db')
+        joueurs = sql.connect('Databases/main.db')
         cursor = joueurs.cursor()
         
         nombre_joueurs = 2
@@ -179,7 +173,7 @@ def joueur():
 def terrain():
     # Fonction pour créer la table
     def creer_terrains():
-        terrains = sql.connect('Databases/terrains.db')
+        terrains = sql.connect('Databases/main.db')
         cursor = terrains.cursor()
 
         cursor.execute("""
@@ -200,7 +194,7 @@ def terrain():
         
     # Fonction pour insérer les données dans la table
     def remplir_terrains():
-        terrains = sql.connect('Databases/terrains.db')
+        terrains = sql.connect('Databases/main.db')
         cursor = terrains.cursor()
         
         # {"nom": (prix, loyer)}
