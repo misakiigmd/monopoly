@@ -4,6 +4,7 @@ from time import sleep
 import sqlite3 as sql
 db_name = 'Databases/main.db'
 from coordonnées import coord
+
 class MonopolyPlateau(tk.Tk):
     def __init__(self, size=6):
         super().__init__()
