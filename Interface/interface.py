@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from time import sleep
+from coordonnées import coord
 
 class MonopolyPlateau(tk.Tk):
     def __init__(self, size=6):
@@ -48,7 +49,7 @@ class MonopolyPlateau(tk.Tk):
                 if i == 0 or i == size - 1 or j == 0 or j == size - 1:
                     square = tk.Canvas(self, width=square_size, height=square_size, highlightthickness=0, bg="lightgray")
                     square.grid(row=i, column=j+1, padx=5, pady=5)
-                    label = tk.Label(square, text=f"{i*size + j + 1}")
+                    label = tk.Label(square, text=f"{coord[i*size + j + 1]}")
                     label.place(relx=0.5, rely=0.5, anchor="c")
 
         # Placer des pions déplaçables sur le plateau
