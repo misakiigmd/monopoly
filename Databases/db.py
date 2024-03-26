@@ -19,32 +19,35 @@ def main():
     CREATE TABLE IF NOT EXISTS CartesChance(
         id_carte INTEGER PRIMARY KEY AUTOINCREMENT,
         nom VARCHAR(50),
-        chemin VARCHAR(50));
+        chemin VARCHAR(50),
+        effet VARCHAR(255));
     """)
     
-    # {"nom": "chemin"}
-    liste_cartes_chance = [{"CCH1": "Images/cch1.png"},
-                            {"CCH2": "Images/cch2.png"},
-                            {"CCH3": "Images/cch3.png"},
-                            {"CCH4": "Images/cch4.png"},
-                            {"CCH5": "Images/cch5.PNG"},
-                            {"CCH6": "Images/cch6.PNG"},
-                            {"CCH7": "Images/cch7.PNG"},
-                            {"CCH8": "Images/cch8.PNG"},
-                            {"CCH9": "Images/cch9.PNG"},
-                            {"CCH10": "Images/cch10.PNG"},
-                            {"CCH11": "Images/cch11.PNG"},
-                            {"CCH12": "Images/cch12.PNG"},
-                            {"CCH13": "Images/cch13.PNG"}]
+    # {"nom": ("chemin", "effet")}
+    liste_cartes_chance = [{"CCH1": ("Images/cch1.png", "Vous êtes libéré de prison. Cette carte peut être conservée jusqu'à ce qu'elle soit utilisée ou vendue.")},
+                            {"CCH2": ("Images/cch2.png", "Reculez de 3 cases.")},
+                            {"CCH3": ("Images/cch3.png", "Erreur de la banque en votre faveur, recevez 50D.")},
+                            {"CCH4": ("Images/cch4.png", "Erreur de la banque en votre faveur, recevez 25D.")},
+                            {"CCH5": ("Images/cch5.PNG", "Erreur de la banque en votre faveur, recevez 75D.")},
+                            {"CCH6": ("Images/cch6.PNG", "Erreur de la banque en votre faveur, recevez 100D.")},
+                            {"CCH7": ("Images/cch7.PNG", "Allez en prison. Avancez tout droit en prison.")},
+                            {"CCH8": ("Images/cch8.PNG", "Allez en prison. Avancez tout droit en prison.")},
+                            {"CCH9": ("Images/cch9.PNG", "Allez en prison. Avancez tout droit en prison.")},
+                            {"CCH10": ("Images/cch10.PNG", "C'est votre anniversaire: chaque joueur doit vous donner 10D.")},
+                            {"CCH11": ("Images/cch11.PNG", "Payez 50D pour des frais de scolarité.")},
+                            {"CCH12": ("Images/cch12.PNG", "Amande pour ivresse: 200D.")},
+                            {"CCH13": ("Images/cch13.PNG", "Amande pour excès de vitesse: 100D.")},
+                            {"CCH14": ("Images/cch14.PNG", "Allez à la gare Atéfaiçes.")},
+                            {"CCH15": ("Images/cch15.PNG", "Allez à la gare Gamelle.")}]
     
     # Insertion des données définies au dessus
     for i in liste_cartes_chance:
         nom_carte_chance = list(i.keys())[0]
-        chemin_carte_chance = list(i.values())[0]
+        carte_chance = list(i.values())[0]
         cursor.execute("""
-        INSERT INTO CartesChance(nom, chemin)
-        VALUES(?, ?);
-        """, (nom_carte_chance, chemin_carte_chance))
+        INSERT INTO CartesChance(nom, chemin, effet)
+        VALUES(?, ?, ?);
+        """, (nom_carte_chance, carte_chance[0], carte_chance[1]))
         
     # Création de la table CartesCommunauté
     cursor.execute("""
