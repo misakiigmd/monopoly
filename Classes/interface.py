@@ -2,8 +2,53 @@ import tkinter as tk
 from tkinter import messagebox, PhotoImage
 from time import sleep
 import sqlite3 as sql
-from coordonnées import coord, noms
-from classe import *
+from Classes.classe import *
+
+coord = {
+    36: 0,
+    35: 1,
+    34: 2,
+    33: 3,
+    32: 4,
+    31: 5,
+    25: 6,
+    19: 7,
+    13: 8,
+    7 : 9,
+    1 : 10,
+    2 : 11,
+    3 : 12,
+    4 : 13,
+    5 : 14,
+    6 : 15, 
+    12: 16,
+    18: 17,
+    24: 18,
+    30: 19
+}
+
+noms = {
+    0: "Départ",
+    1: "Rue de\nCourcelles",
+    2: "Avenue de\nla République",
+    3: "Carte Chance",
+    4: "Avenue de\nNoeuil",
+    5: "Visite de prison",
+    6: "Rue de Paradis",
+    7: "Gare Atéfaiçes",
+    8: "Boulevard\nSaint-Michel",
+    9: "Place Pigalle",
+    10: "Parc Gratuit",
+    11: "Carte\nCommunauté",
+    12: "Rue La Fayette",
+    13: "Boulevard des\nCramptés",
+    14: "Taxes",
+    15: "Allez en prison",
+    16: "Gare Gamelle",
+    17: "Avenue Fauché",
+    18: "Avenue\nChamps-NSI",
+    19: "EDF"
+}
 
 db_name = 'Databases/main.db'
 
