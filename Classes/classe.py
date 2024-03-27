@@ -88,6 +88,8 @@ class Gare:
 
 
 class Joueur:
+    
+    liste_joueurs = set()
     def __init__(self, nom, nbr_billets):
         """Joueur du jeu Duopili"""
         assert len(nbr_billets) !=7, 'Il manque un type de billet dans la liste'
@@ -98,6 +100,7 @@ class Joueur:
         self.terrains = set() # set -> terrain du joueur
         self.gares = set()  # set -> gare du joueur
         self.bloque = 0 # bloqué (en cas de mise en prison)
+        Joueur.liste_joueurs.add(self)
         
     def deplacer(self, nombre_de_case):
         """Déplacer un joueur de n case(s)"""
