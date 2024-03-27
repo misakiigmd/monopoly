@@ -160,7 +160,7 @@ def billets(id):
     cursor.close()
     db.close()
     
-    print(result_list)
+    return result_list
         
 def cartech_random():
     index = random.randint(1, 15)

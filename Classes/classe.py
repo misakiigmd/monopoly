@@ -88,7 +88,7 @@ class Gare:
 
 
 class Joueur:
-    def __init__(self, nom, nbr_billets=[3, 1, 1, 1, 1, 1, 11]):
+    def __init__(self, nom, nbr_billets):
         """Joueur du jeu Duopili"""
         assert len(nbr_billets) !=6, 'Il manque un type de billet dans la liste'
         self.nom = nom

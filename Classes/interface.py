@@ -2,7 +2,9 @@ import tkinter as tk
 from tkinter import messagebox, PhotoImage
 from time import sleep
 import sqlite3 as sql
+from random import randint
 from Classes.classe import *
+from Classes.db import *
 
 coord = {
     36: 0,
@@ -63,10 +65,12 @@ class MonopolyPlateau(tk.Tk):
         self.piece2_case = {0: (5.1, 7), 1: (5.1, 6), 2: (5.1, 5), 3: (5.1, 4), 4: (5.1, 3), 5: (5.1, 2.25), 6: (4.1, 2.25), 7: (3.1, 2.25), 8: (2.2, 2.25), 9: (1.2, 2.25), 10: (0.2, 2.25), 11: (0.2, 3), 12: (0.2, 4), 13: (0.2, 5), 14: (0.2, 6), 15: (0.2, 7.2), 16: (1.2, 7.2), 17: (2.3, 7.2), 18: (3.2, 7.2), 19: (4.1, 7.2), 20: (5.1, 7)}
         self.piece1_number = 1
         self.piece2_number = 1
-        self.joueur1 = Joueur("Morgan")
-        self.joueur2 = Joueur("Yanis")
+        
+        billets_depart = billets(1)
+        self.joueur1 = Joueur("Morgan", billets_depart)
+        self.joueur2 = Joueur("Yanis", billets_depart)
         self.attributes('-fullscreen', True)
-        self.bind('<Escape>', lambda e: self.destroy())
+        self.bind('<Escape>', lambda: self.destroy())
 
         self.resizable(False, False)
 
@@ -141,6 +145,8 @@ class MonopolyPlateau(tk.Tk):
                 button.config(command=lambda: move_piece(1))
             if text == "Passer":
                 button.config(command=lambda: move_piece(0))
+            if text == "Lancer le dé":
+                button.config(command=lambda: move_piece(1))
             
 
         @staticmethod 
