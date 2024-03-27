@@ -69,7 +69,7 @@ class MonopolyPlateau(tk.Tk):
         self.joueur1 = joueur1
         self.joueur2 = joueur2
         self.attributes('-fullscreen', True)
-        self.bind('<Escape>', lambda: self.destroy())
+        self.bind('<Escape>', lambda x: self.destroy())
 
         self.resizable(False, False)
 
@@ -137,6 +137,17 @@ class MonopolyPlateau(tk.Tk):
                                y=middle_row * square_size + square_size / 2 + 5 * (middle_row + 1) - 65,
                                anchor="c")
 
+        def lancer_de():
+            existing_label = button_section.winfo_children()
+            if len(existing_label) == 4:
+                existing_label[-1].destroy()
+            
+            result = random.randint(1, 6)
+            result_label = tk.Label(button_section, text=f"{result}")
+            result_label.pack(side="bottom")
+            
+            return result
+        
         def add_button(text):
             button = tk.Button(button_section, text=text)
             button.pack(side="top", padx=5, pady=5)
@@ -145,8 +156,7 @@ class MonopolyPlateau(tk.Tk):
             if text == "Passer":
                 button.config(command=lambda: move_piece(0))
             if text == "Lancer le dé":
-                button.config(command=lambda: move_piece(1))
-            
+                button.config(command=lambda: lancer_de())
 
         @staticmethod 
         def move_piece(piece_num): 

@@ -161,6 +161,21 @@ def billets(id):
     db.close()
     
     return result_list
+
+def terrain(id):
+    db = sql.connect(db_path)
+    cursor = db.cursor()
+    
+    cursor.execute("""
+    SELECT nom FROM Terrains
+    WHERE id_terrain = ?""", (str(id)))
+    
+    result = cursor.fetchone()[0]
+    
+    cursor.close()
+    db.close()
+    
+    return result
         
 def cartech_random():
     index = random.randint(1, 15)
@@ -175,4 +190,3 @@ def carteco_random():
 if __name__ == "__main__":
     delete_old_file()
     main()
-    cartech_random()
