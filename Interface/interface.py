@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, PhotoImage
 from time import sleep
 import sqlite3 as sql
 from coordonnées import coord, noms
@@ -71,6 +71,19 @@ class MonopolyPlateau(tk.Tk):
 
         button_section = tk.Frame(self, width=200, height=window_height, bg="white")
         button_section.grid(row=0, column=size+2, rowspan=size, padx=5, pady=5)
+        
+        # Load the image
+        self.board_image = PhotoImage(file="Images\Logo.png").subsample(2, 2)  # Replace "your_image_file.png" with your image file path
+
+        # Create a label to display the image
+        self.image_label = tk.Label(self, image=self.board_image)
+
+        # Place the label in the middle of the board
+        middle_row = size // 2
+        middle_col = size // 2
+        self.image_label.place(x=157.5 + middle_col * square_size + square_size / 2 + 5 * (middle_col + 1),
+                               y=middle_row * square_size + square_size / 2 + 5 * (middle_row + 1) - 65,
+                               anchor="c")
 
         def add_button(text):
             button = tk.Button(button_section, text=text)
@@ -115,7 +128,7 @@ class MonopolyPlateau(tk.Tk):
 
     def place_piece(self, row, col, color):
         square_size = 100
-        piece = tk.Canvas(self, width=30, height=30, highlightthickness=0)
+        piece = tk.Canvas(self, width=30, height=30, highlightthickness=0, bg="lightgray")
         piece.create_oval(5, 5, 25, 25, fill=color)
         piece.place(x=col * square_size + square_size / 2 + 5 * (col + 1), y=row * square_size + square_size / 2 + 5 * (row + 1), anchor="c")
         self.pieces.append([piece, row, col])  # Ajouter la référence à la liste des pièces
