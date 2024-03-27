@@ -2,7 +2,7 @@
 tache : 
     changer payer pour qu'elle rendent de la monnaie si on doit payer 10e mais qu'il a ni des 10, ni des 5 ni des 1 
 """
-
+from Classes.db import billets
 
 class Terrain:    
     liste_terrain = set() # set emplacement de propriété
@@ -88,7 +88,7 @@ class Gare:
 
 
 class Joueur:
-    def __init__(self, nom, nbr_billets):
+    def __init__(self, nom, nbr_billets=billets(1)):
         """Joueur du jeu Duopili"""
         assert len(nbr_billets) !=6, 'Il manque un type de billet dans la liste'
         self.nom = nom
