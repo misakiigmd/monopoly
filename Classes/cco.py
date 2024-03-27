@@ -1,7 +1,7 @@
 # code de chaque carte communauté
 from classe import*
 
-def Médecin(joueur):
+def medecin(joueur):
     assert not isinstance(joueur,Joueur)
     joueur.payer(50)
 
