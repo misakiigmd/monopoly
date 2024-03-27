@@ -1,3 +1,8 @@
+"""
+tache : 
+    changer payer pour qu'elle rendent de la monnaie si on doit payer 10e mais qu'il a ni des 10, ni des 5 ni des 1 
+"""
+
 
 class Terrain:    
     liste_terrain = set() # set emplacement de propriété
@@ -127,8 +132,10 @@ class Joueur:
         elif  Gare.est_gare(self.emplacement):
             ...
         
-        
-        
+    def aller_prison(self):
+        """Aller en prison"""
+        self.emplacement = 5
+        self.bloque = 2
     def ajouter_billets(self, val, nombre_billets):
         """Ajoute n billets de N"""
         assert not val in self.billets, "La valeur du billet n'existe pas"    
@@ -141,7 +148,9 @@ class Joueur:
             raise ValueError("Le joueur ne possède pas suffisament de billets")
         else:
             self.billets[val] -= nombres_billets   
-    
+
+    def debloquer(self):
+        self.bloque = 0
     def est_bloque(self):
         """Renvoie:
             True, si le joueur est bloqué
