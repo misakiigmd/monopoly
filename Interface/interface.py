@@ -14,8 +14,9 @@ class MonopolyPlateau(tk.Tk):
         self.size = size
         self.pieces = []  # Liste pour stocker les références aux pièces créées
         self.piece1_case = {0: (4.5, 7), 1: (4.5, 6), 2: (4.5, 5), 3: (4.5, 4), 4: (4.5, 3), 5: (4.5, 2.25), 6: (3.6, 2.25), 7: (2.6, 2.25), 8: (1.7, 2.25), 9: (0.8, 2.25), 10: (-0.3, 2.25), 11: (-0.3, 3), 12: (-0.3, 4), 13: (-0.3, 5), 14: (-0.3, 6), 15: (-0.3, 7.2), 16: (0.8, 7.2), 17: (1.7, 7.2), 18: (2.6, 7.2), 19: (3.6, 7.2), 20: (4.5, 7)}
-        self.piece2_case = {0: (5.1, 7), 1: (5.1, 6), 2: (5.1, 5), 3: (5.1, 4), 4: (5.1, 3), 5: (5.1, 2.25), 6: (4.1, 2.25), 7: (3.1, 2.25), 8: (1.5, 2.25), 9: (0.6, 2.25), 10: (-0.6, 2.25), 11: (-0.6, 3), 12: (-0.6, 4), 13: (-0.6, 5), 14: (-0.6, 6), 15: (-0.6, 7.2), 16: (0.6, 7.2), 17: (1.4, 7.2), 18: (2.3, 7.2), 19: (3.3, 7.2), 20: (4.5, 7)}
-        self.piece1_number = 0
+        self.piece2_case = {0: (5.1, 7), 1: (5.1, 6), 2: (5.1, 5), 3: (5.1, 4), 4: (5.1, 3), 5: (5.1, 2.25), 6: (4.1, 2.25), 7: (3.1, 2.25), 8: (2.2, 2.25), 9: (1.2, 2.25), 10: (0.2, 2.25), 11: (0.2, 3), 12: (0.2, 4), 13: (0.2, 5), 14: (0.2, 6), 15: (0.2, 7.2), 16: (1.2, 7.2), 17: (2.3, 7.2), 18: (3.2, 7.2), 19: (4.1, 7.2), 20: (5.1, 7)}
+        self.piece1_number = 1
+        self.piece2_number = 1
         self.attributes('-fullscreen', True)
         self.bind('<Escape>', lambda e: self.destroy())
 
@@ -83,16 +84,24 @@ class MonopolyPlateau(tk.Tk):
         @staticmethod 
         def move_piece(piece_num): 
             piece_case = self.piece1_case
+            piece_number = self.piece1_number
             if (piece_num == 1):
                 piece_case = self.piece2_case
-            print(piece_case) 
-            if (self.piece1_number == 19):
-                self.piece1_number = 0
+                piece_number = self.piece2_number
+    
+                if (self.piece2_number == 19):
+                    self.piece2_number = 0
+                else:
+                    self.piece2_number += 1
             else:
-                self.piece1_number += 1
+                if (self.piece1_number == 19):
+                    self.piece1_number = 0
+                else:
+                    self.piece1_number += 1
+                
             square_size = 100
             piece, old_row, old_col = self.pieces[piece_num]
-            new_row, new_col = piece_case[self.piece1_number]
+            new_row, new_col = piece_case[piece_number]
             piece.place(x=new_col * square_size + square_size / 2 + 5 * (new_col + 1), y=new_row * square_size + square_size / 2 + 5 * (new_row + 1), anchor="c")
             self.pieces[piece_num] = [piece, new_row, new_col]
             print(new_row, new_col)
