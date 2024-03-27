@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from time import sleep
 import sqlite3 as sql
-from coordonnées import coord
+from coordonnées import coord, noms
 
 db_name = 'Databases/main.db'
 
@@ -52,7 +52,7 @@ class MonopolyPlateau(tk.Tk):
                 if i == 0 or i == size - 1 or j == 0 or j == size - 1:
                     square = tk.Canvas(self, width=square_size, height=square_size, highlightthickness=0, bg="lightgray")
                     square.grid(row=i, column=j+1, padx=2, pady=1)
-                    label = tk.Label(square, text=f"{coord[i*size + j + 1]}")
+                    label = tk.Label(square, bg="lightgray", text=f"{noms[coord[i*size + j + 1]]}")
                     label.place(relx=0.5, rely=0.5, anchor="c")
 
         self.place_piece(size - 1.5, size + 1, "lightgreen")

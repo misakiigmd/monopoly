@@ -28,3 +28,26 @@ coord = {
     24: 18,
     30: 19
 }
+
+noms = {
+    0: "Départ",
+    1: "Rue de\nCourcelles",
+    2: "Avenue de\nla République",
+    3: "Carte Chance",
+    4: "Avenue de\nNoeuil",
+    5: "Visite de prison",
+    6: "Rue de Paradis",
+    7: "Gare Atéfaiçes",
+    8: "Boulevard\nSaint-Michel",
+    9: "Place Pigalle",
+    10: "Parc Gratuit",
+    11: "Carte\nCommunauté",
+    12: "Rue La Fayette",
+    13: "Boulevard des\nCramptés",
+    14: "Taxes",
+    15: "Allez en prison",
+    16: "Gare Gamelle",
+    17: "Avenue Fauché",
+    18: "Avenue\nChamps-NSI",
+    19: "EDF"
+}
