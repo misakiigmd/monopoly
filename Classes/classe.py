@@ -88,17 +88,17 @@ class Gare:
 
 
 class Joueur:
-    def __init__(self, nom, nbr_billets):
+    def __init__(self, nom, nbr_billets=[3, 1, 1, 1, 1, 1, 11]):
         """Joueur du jeu Duopili"""
-        assert len(nbr_billets) !=7, 'Il manque un type de billet dans la liste'
+        assert len(nbr_billets) !=6, 'Il manque un type de billet dans la liste'
         self.nom = nom
         self.billets = {500 :nbr_billets[0], 100:nbr_billets[1], 50:nbr_billets[2], 20:nbr_billets[3], 10:nbr_billets[4], 5:nbr_billets[5], 1:nbr_billets[6]}
-        self.argent = self.billets[500]*500 + self.billets[100]*100 + self.billets[50]*50 + self.billets[20]*20 + self.billets[10]*10
+        self.argent = self.billets[500]*500 + self.billets[100]*100 + self.billets[50]*50 + self.billets[20]*20 + self.billets[10]*10 + self.billets[5]*5 + self.billets[1]
         self.emplacement = 0 # numero de la case où se trouve le joueur
         self.terrains = set() # set -> terrain du joueur
         self.gares = set()  # set -> gare du joueur
         self.bloque = 0 # bloqué (en cas de mise en prison)
-        
+            
     def deplacer(self, nombre_de_case):
         """Déplacer un joueur de n case(s)"""
         if self.emplacement + nombre_de_case >= 20:
@@ -136,6 +136,7 @@ class Joueur:
         """Aller en prison"""
         self.emplacement = 5
         self.bloque = 2
+        
     def ajouter_billets(self, val, nombre_billets):
         """Ajoute n billets de N"""
         assert not val in self.billets, "La valeur du billet n'existe pas"    
@@ -148,6 +149,10 @@ class Joueur:
             raise ValueError("Le joueur ne possède pas suffisament de billets")
         else:
             self.billets[val] -= nombres_billets   
+            
+    def format_billets(self):
+        """Renvoyer les billets en string pour l'affichage"""
+        return '\n'.join([f"{value} x {key}" for key, value in self.billets.items() if value != 0])
 
     def debloquer(self):
         self.bloque = 0
