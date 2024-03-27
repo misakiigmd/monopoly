@@ -1,16 +1,4 @@
 import Databases.db
-
-class Chance:
-    
-    liste_chance = set()
-    
-    def __init__(self, id, case) -> None:
-        self.id = id
-        self.case = case
-        self.liste_chance.add(self)
-        
-
-
 class Terrain:
     
     liste_terrain = set() # set emplacement de propriété
