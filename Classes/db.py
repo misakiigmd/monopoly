@@ -160,37 +160,32 @@ def billets(id):
     cursor.close()
     db.close()
     
-    print(result_list)
-        
-def carteco_random():
+    return result_list
+
+def terrain(id):
     db = sql.connect(db_path)
     cursor = db.cursor()
     
     cursor.execute("""
-    SELECT id_carte, chemin FROM CartesCommunauté""")
+    SELECT nom FROM Terrains
+    WHERE id_terrain = ?""", (str(id)))
     
-    results = cursor.fetchall()
-    carte = random.randint(0, len(results) - 1)
-        
-    print(results[carte])
+    result = cursor.fetchone()[0]
     
     cursor.close()
     db.close()
     
+    return result
+        
 def cartech_random():
-    db = sql.connect(db_path)
-    cursor = db.cursor()
-    
-    cursor.execute("""
-    SELECT id_carte, chemin FROM CartesChance""")
-    
-    results = cursor.fetchall()
-    carte = random.randint(0, len(results) - 1)
-        
-    print(results[carte])
-    
-    cursor.close()
-    db.close()
+    index = random.randint(1, 15)
+    carte = f"cch{index}"
+    return carte
+
+def carteco_random():
+    index = random.randint(1, 13)
+    carte = f"cco{index}"
+    return carte
     
 if __name__ == "__main__":
     delete_old_file()

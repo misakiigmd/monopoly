@@ -2,14 +2,61 @@ import tkinter as tk
 from tkinter import messagebox, PhotoImage
 from time import sleep
 import sqlite3 as sql
-from coordonnées import coord, noms
-from Classes import classe
+from random import randint
+from Classes.classe import *
+from Classes.db import *
+
+coord = {
+    36: 0,
+    35: 1,
+    34: 2,
+    33: 3,
+    32: 4,
+    31: 5,
+    25: 6,
+    19: 7,
+    13: 8,
+    7 : 9,
+    1 : 10,
+    2 : 11,
+    3 : 12,
+    4 : 13,
+    5 : 14,
+    6 : 15, 
+    12: 16,
+    18: 17,
+    24: 18,
+    30: 19
+}
+
+noms = {
+    0: "Départ",
+    1: "Rue de\nCourcelles",
+    2: "Avenue de\nla République",
+    3: "Carte Chance",
+    4: "Avenue de\nNoeuil",
+    5: "Visite de prison",
+    6: "Rue de Paradis",
+    7: "Gare Atéfaiçes",
+    8: "Boulevard\nSaint-Michel",
+    9: "Place Pigalle",
+    10: "Parc Gratuit",
+    11: "Carte\nCommunauté",
+    12: "Rue La Fayette",
+    13: "Boulevard des\nCramptés",
+    14: "Taxes",
+    15: "Allez en prison",
+    16: "Gare Gamelle",
+    17: "Avenue Fauché",
+    18: "Avenue\nChamps-NSI",
+    19: "EDF"
+}
 
 db_name = 'Databases/main.db'
 
 
 class MonopolyPlateau(tk.Tk):
-    def __init__(self, size=6):
+    def __init__(self, size=6, joueur1=Joueur('Joueur1', billets(1)), joueur2=Joueur('Joueur2', billets(1))):
         super().__init__()
 
         self.size = size
@@ -18,10 +65,11 @@ class MonopolyPlateau(tk.Tk):
         self.piece2_case = {0: (5.1, 7), 1: (5.1, 6), 2: (5.1, 5), 3: (5.1, 4), 4: (5.1, 3), 5: (5.1, 2.25), 6: (4.1, 2.25), 7: (3.1, 2.25), 8: (2.2, 2.25), 9: (1.2, 2.25), 10: (0.2, 2.25), 11: (0.2, 3), 12: (0.2, 4), 13: (0.2, 5), 14: (0.2, 6), 15: (0.2, 7.2), 16: (1.2, 7.2), 17: (2.3, 7.2), 18: (3.2, 7.2), 19: (4.1, 7.2), 20: (5.1, 7)}
         self.piece1_number = 1
         self.piece2_number = 1
-        self.joueur1 = classe.Joueur()
-        self.joueur2 = classe.Joueur()
+        
+        self.joueur1 = joueur1
+        self.joueur2 = joueur2
         self.attributes('-fullscreen', True)
-        self.bind('<Escape>', lambda e: self.destroy())
+        self.bind('<Escape>', lambda x: self.destroy())
 
         self.resizable(False, False)
 
@@ -64,12 +112,13 @@ class MonopolyPlateau(tk.Tk):
 
         player1_column = tk.Canvas(self, width=100, height=window_height, bg="lightblue")
         player1_column.grid(row=0, column=0, rowspan=size, padx=50, pady=50)
-        player1_label = tk.Label(player1_column, bg="lightblue", text=f"Joueur 1\n\nArgent Total = {self.joueur1.argent}\n\nPropriétés: ")
+        player_billets = self.joueur1.billets
+        player1_label = tk.Label(player1_column, bg="lightblue", text=f"{joueur1.nom}\n\nArgent Total = {self.joueur1.argent}D\n\nBillets:\n {self.joueur1.format_billets()}\n\nPropriétés: ")
         player1_label.pack(side="top")
 
         player2_column = tk.Canvas(self, width=100, height=window_height, bg="lightgreen")
         player2_column.grid(row=0, column=size+1, rowspan=size, padx=50, pady=5)
-        player2_label = tk.Label(player2_column, bg="lightgreen", text=f"Joueur 2\n\nArgent Total = {self.joueur1.argent}\n\nPropriétés: ")
+        player2_label = tk.Label(player2_column, bg="lightgreen", text=f"{joueur2.nom}\n\nArgent Total = {self.joueur1.argent}D\n\nBillets:\n {self.joueur2.format_billets()}\n\nPropriétés: ")
         player2_label.pack(side="top")
 
         button_section = tk.Frame(self, width=200, height=window_height, bg="white")
@@ -88,6 +137,17 @@ class MonopolyPlateau(tk.Tk):
                                y=middle_row * square_size + square_size / 2 + 5 * (middle_row + 1) - 65,
                                anchor="c")
 
+        def lancer_de():
+            existing_label = button_section.winfo_children()
+            if len(existing_label) == 4:
+                existing_label[-1].destroy()
+            
+            result = random.randint(1, 6)
+            result_label = tk.Label(button_section, text=f"{result}")
+            result_label.pack(side="bottom")
+            
+            return result
+        
         def add_button(text):
             button = tk.Button(button_section, text=text)
             button.pack(side="top", padx=5, pady=5)
@@ -95,7 +155,8 @@ class MonopolyPlateau(tk.Tk):
                 button.config(command=lambda: move_piece(1))
             if text == "Passer":
                 button.config(command=lambda: move_piece(0))
-            
+            if text == "Lancer le dé":
+                button.config(command=lambda: lancer_de())
 
         @staticmethod 
         def move_piece(piece_num): 
