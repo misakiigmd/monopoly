@@ -1,7 +1,7 @@
 """
-tache : 
-    finissent la fonction déplacer
-    changer payer pour qu'elle rendent de la monnaie si on doit payer 10e mais qu'il a ni des 10, ni des 5 ni des 1 
+tache :
+    changer "payer", "payer_loyer" et "payer_billet" pour qu'elle rendent de la monnaie si on doit payer 10e mais qu'il a ni des 10, ni des 5 ni des 1 
+    Rédiger les commentaires
 """
 import Python.db as db 
 from Python.carte import carte
