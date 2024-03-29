@@ -1,5 +1,5 @@
 # code de chaque carte chance
-from fonc_carte import *
+from Python.fonc_carte import *
 
 carte = {
     'cch1' : libere_prison,

@@ -1,4 +1,4 @@
-from classe import *
+from Python.classe import *
 
 def libere_prison(joueur):
     """Libère la prison du joueur"""

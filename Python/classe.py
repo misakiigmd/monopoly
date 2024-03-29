@@ -3,7 +3,8 @@ tache :
     finissent la fonction déplacer
     changer payer pour qu'elle rendent de la monnaie si on doit payer 10e mais qu'il a ni des 10, ni des 5 ni des 1 
 """
-from Python.db import billets
+import Python.db as db 
+from Python.carte import carte
 
 class Terrain:    
     liste_terrain = set() # set emplacement de propriété
@@ -89,7 +90,7 @@ class Gare:
 
 
 class Joueur:
-    def __init__(self, nom, nbr_billets=billets(1)):
+    def __init__(self, nom, nbr_billets=db.billets(1)):
         """Joueur du jeu Duopili"""
         assert len(nbr_billets) !=6, 'Il manque un type de billet dans la liste'
         self.nom = nom
@@ -117,22 +118,35 @@ class Joueur:
             else:
                 r = input("Voulez-vous acheter ce terrain ? [O/N] ")
                 if r.lower() == "o":
-                    terrain.acheter()
+                    self.acheter_terrain(terrain)
                 else:
                     print('vous ne voulez pas acheter ce terrain')
         # Case chance ----------------------------------------------------------------
-        elif ...:
-            ...
+        elif self.emplacement == 3: # si le joueur est sur la case chance
+            cartech = db.cartech_random() # On récupère une carte chance au hasard
+            cartech_effet = carte[cartech] # On récupere l'effet de la carte (on récupère la fonc qui lui est attribué)
+            cartech_effet(self) # On applique cette effet sur le joueur
         # Case communauté ------------------------------------------------------------
-        elif ...:
-            ...
+        elif self.emplacement == 11: # Si le joueur tombe sur une carte communauté
+            carteco = db.carteco_random() # On récupère une carte communauté au hasard
+            carteco_effet = carte[carteco] # On récupère la fonction de la carte
+            carteco_effet(self) # On applique l'effet de la carte communauté sur le joueur
         # Case taxe ------------------------------------------------------------------
-        elif self.emplacement == 19:
+        elif self.emplacement in [14, 19]: # Case EDF et case Taxe
             self.payer(100) # La taxe est de 100€
         # Case gare ------------------------------------------------------------------
         elif  Gare.est_gare(self.emplacement):
-            ...
-        
+            gare = Gare.gare(self.emplacement)
+            if gare.est_achete():
+                print(f'Cette gare appartient à {gare.proprietaire}, Vous allez donc payer  {gare.billet} €')
+                self.payer_billet(gare)
+            else:
+                r = input("Voulez-vous acheter cette gare ? [O/N] ")
+                if r.lower() == 'o':
+                    self.acheter_gare(gare)
+                    print("Vous avez acheté ce terrain")
+
+
     def aller_prison(self):
         """Aller en prison"""
         self.emplacement = 5
@@ -178,7 +192,7 @@ class Joueur:
                 else:
                     self.retirer_billets(billet, somme//billet)             
                     somme = somme - (somme//billet) *billet
-    def acheter(self, terrain):
+    def acheter_terrain(self, terrain):
         """Le joueur achète un terrain """
         assert len(self.terrains) >= 3, 'Vous possedez déjà 3 propriétés'
         if terrain.est_achete():
