@@ -117,7 +117,7 @@ def main():
         FOREIGN KEY(appartenance) REFERENCES joueurs(id_joueur));
     """)
     
-    # {"nom": (prix, loyer)}
+    # {"nom": (case, prix, loyer)}
     # Le loyer correspond au loyer de base (il dépend du nombre de maisons)
     liste_terrains = [{"Rue de Courcelles": (1, 65, 30)},
                     {"Avenue de la République": (2, 70, 40)},

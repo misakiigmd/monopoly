@@ -3,7 +3,7 @@ tache :
     finissent la fonction déplacer
     changer payer pour qu'elle rendent de la monnaie si on doit payer 10e mais qu'il a ni des 10, ni des 5 ni des 1 
 """
-from Classes.db import billets
+from Python.db import billets
 
 class Terrain:    
     liste_terrain = set() # set emplacement de propriété

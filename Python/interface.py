@@ -3,8 +3,8 @@ from tkinter import messagebox, PhotoImage
 from time import sleep
 import sqlite3 as sql
 from random import randint
-from Classes.classe import *
-from Classes.db import *
+from Python.classe import *
+from Python.db import *
 
 coord = {
     36: 0,

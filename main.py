@@ -1,9 +1,6 @@
-from Classes.classe import *
-from Classes.interface import *
-from Classes.db import *
+from Python.classe import *
+from Python.interface import *
+from Python.db import *
 
-j1 = Joueur("Marouan")
-j2 = Joueur('Anaël')
-
-app = MonopolyPlateau(size=6, joueur1=j1, joueur2=j2)
+app = MonopolyPlateau(size=6)
 app.mainloop()
