@@ -108,8 +108,7 @@ class Joueur:
         self.emplacement = (self.emplacement + nombre_de_case) %20 # Si il réalise un tour complet, il revient à zero (modulo 20 car il y a 20 case au total)
         # Case prison ---------------------------------------------------------------
         if self.emplacement == 15: # si case police 
-            self.emplacement == 5 #mettre à la prison
-            self.bloque = 2 # bloqué durant 2 tours
+            self.aller_prison() # le joueur va à la prison et est bloqué durant 2 tours
         # Case terrain --------------------------------------------------------------    
         elif Terrain.est_terrain(self.emplacemment): # si joueur se trouve dans une case terrain 
             terrain = Terrain.terrain(self.emplacement) # terrain correspondant à la case où se trouve le joueur 
@@ -227,21 +226,21 @@ class Joueur:
 
     def payer_loyer(self, terrain):
         """Le joueur doit payer le loyer"""
-        if not terrain.est_achete():
+        if not terrain.est_achete(): # si le terrain n'appartient à personne
             print('la propriété n\'est pas encore achetée')
             r = input('Voulez-vous l\'acheter ? [Y/N] : ')
             if  r.upper()[0] == "Y":
                 self.acheter(terrain)
             else:
                 return 'Cette propriété ne vous appartient pas et vous ne voulez pas l\'acheter, il n\'y a donc rien à acheter'
-        elif self.nom == terrain.proprietaire:
+        elif self.nom == terrain.proprietaire: # Si le terrain appartient au joueur 
             return 'Cette propriété vous appartient'
         else:
             somme = terrain.prix
             if somme > self.argent:
-                return f"{self.name} n'a assez pour réaliser cette opération Il a perdu la partie"
+                return f"{self.name} n'a assez pour réaliser cette opération, Il a perdu la partie"
             
-            elif somme == self.argent:
+            elif somme == self.argent: # Si le joueur possède exactement le montant nécessaire
                 for i in self.billets:
                     temp = self.billets[i]
                     self.billets[i] = 0
